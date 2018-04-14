@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 53840,
-  "expoServerNgrokUrl": "https://mv-6di.demiladebamgbose.modu.exp.direct",
-  "packagerNgrokUrl": "https://packager.mv-6di.demiladebamgbose.modu.exp.direct",
-  "ngrokPid": 53857
+  "packagerPort": 19001,
+  "packagerPid": 1102,
+  "expoServerNgrokUrl": "https://4u-dyc.demiladebamgbose.modu.exp.direct",
+  "packagerNgrokUrl": "https://packager.4u-dyc.demiladebamgbose.modu.exp.direct",
+  "ngrokPid": 1119
 }
