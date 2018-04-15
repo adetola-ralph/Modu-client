@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import GradientBackground from './GradientBackground';
  
-class Login extends Component {
-  constructor() {
-    super();
-  }
-
+class Signup extends Component {
   static navigationOptions = () => ({
     headerLeft: null,
     headerStyle: {
@@ -14,8 +10,8 @@ class Login extends Component {
     }
   });
 
- linkToSignup () {
-    this.props.navigation.navigate('Signup');
+  linkToLogin () {
+    this.props.navigation.navigate('Main');
   }
 
   render () {
@@ -25,7 +21,23 @@ class Login extends Component {
 
         <Image style={styles.logo} source={(require('../../assets/modu_logo_text.png'))}></Image>
 
-        <Text style={styles.logInText}> Login </Text>
+        <Text style={styles.logInText}> Signup </Text>
+
+        <View style={styles.btnView}>
+          <Image style={styles.textViewImg} source={(require('../../assets/nameIc.png'))}></Image>
+          <TextInput style={styles.textInput}
+           placeholder='First Name'
+           placeholderTextColor = "#ffffff"
+           autoCapitalize = "none"></TextInput>
+        </View>
+
+        <View style={styles.btnView}>
+          <Image style={styles.textViewImg} source={(require('../../assets/nameIc.png'))}></Image>
+          <TextInput style={styles.textInput}
+           placeholder='Last Name'
+           placeholderTextColor = "#ffffff"
+           autoCapitalize = "none"></TextInput>
+        </View>
 
         <View style={styles.btnView}>
           <Image style={styles.textViewImg} source={(require('../../assets/email.png'))}></Image>
@@ -44,16 +56,16 @@ class Login extends Component {
 
           <Image style={styles.textViewImg} source={(require('../../assets/switchPassword.png'))}></Image>
         </View>
-        <Text style={styles.forgotPassword}> Forgot Password? </Text>
+
         <TouchableOpacity
           style = {styles.submitButton}>
-          <Text style = {styles.btnText}> Log In </Text>
+          <Text style = {styles.btnText}> Sign Up </Text>
         </TouchableOpacity>
 
         <View style={styles.signupHolder}>
-          <Text style={styles.noAccount}> Don't have an account? </Text>
-          <TouchableOpacity onPress={this.linkToSignup.bind(this)}>
-            <Text style={styles.signup}> Sign Up!</Text>
+          <Text style={styles.noAccount}> Already have an account? </Text>
+          <TouchableOpacity onPress={this.linkToLogin.bind(this)}>
+            <Text style={styles.signup}> Log In!</Text>
           </TouchableOpacity>
         </View>
         
@@ -107,14 +119,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginTop: 5,
     width: 250,
-  },
-  forgotPassword: {
-    color: 'rgba(255, 255, 255, 0.73)',
-    marginRight: 50,
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    
-  },
+  },  
   submitButton: {
     borderRadius:30,
     borderWidth: 1,
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
   terms: {
     color: '#fff',
     fontSize: 9,
-    marginTop: 170,
+    marginTop: 80,
   },
   policy: {
     color: '#fff',
@@ -156,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Signup;

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import configureStore from './src/store/';
 import Login from './src/components/Login';
+import Signup from './src/components/Signup';
 
 const store = configureStore();
 
@@ -12,6 +13,9 @@ export default class App extends React.Component {
     const MainNavigator = StackNavigator({
       Main: {
         screen: Login
+      },
+      Signup: {
+        screen: Signup
       }
     });
 
@@ -22,12 +26,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-// {/* const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// }); */}
