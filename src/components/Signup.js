@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+
 import GradientBackground from './GradientBackground';
  
 class Signup extends Component {
@@ -11,8 +13,12 @@ class Signup extends Component {
   });
 
   linkToLogin () {
-    this.props.navigation.navigate('Main');
+    // navigates back to login  
+    const backAction = NavigationActions.back({});
+    this.props.navigation.dispatch(backAction);
   }
+
+  
 
   render () {
     return (
@@ -87,6 +93,7 @@ const styles = StyleSheet.create({
   logo: {
     height: 100,
     width: 100,
+    resizeMode:'contain',
   }, 
   logInText:{
     backgroundColor: 'transparent',
@@ -112,6 +119,8 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     marginTop: 12,
     marginRight: 12,
+    resizeMode:'contain',
+
   },
   textInput: {
     backgroundColor: 'transparent',

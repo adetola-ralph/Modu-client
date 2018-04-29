@@ -18,6 +18,10 @@ class Login extends Component {
     this.props.navigation.navigate('Signup');
   }
 
+  linkToTabs () {
+    this.props.navigation.navigate('TabNavigation');
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -46,7 +50,8 @@ class Login extends Component {
         </View>
         <Text style={styles.forgotPassword}> Forgot Password? </Text>
         <TouchableOpacity
-          style = {styles.submitButton}>
+          style={styles.submitButton}
+          onPress={this.linkToTabs.bind(this)}>
           <Text style = {styles.btnText}> Log In </Text>
         </TouchableOpacity>
 
@@ -75,6 +80,7 @@ const styles = StyleSheet.create({
   logo: {
     height: 100,
     width: 100,
+    resizeMode:'contain',
   }, 
   logInText:{
     backgroundColor: 'transparent',
@@ -100,6 +106,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     marginTop: 12,
     marginRight: 12,
+    resizeMode:'contain'
   },
   textInput: {
     backgroundColor: 'transparent',
