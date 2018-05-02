@@ -19,7 +19,7 @@ class Login extends Component {
   }
 
   linkToTabs () {
-    this.props.navigation.navigate('TabNavigation');
+    this.props.navigation.navigate('DrawerNavigation');
   }
 
   render () {

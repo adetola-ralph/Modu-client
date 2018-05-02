@@ -7,10 +7,11 @@ import Home from '../Home';
 
 export default TabNavigator (
     {
-      Events: { 
-          screen: Events,
-          label: 'Events',
-         },
+      Home: { 
+        screen: Home,
+        label: 'Home',
+       },
+      
       AddReview: { 
           screen: Home,
           navigationOptions: ({ navigation }) => ({
@@ -21,10 +22,11 @@ export default TabNavigator (
           screen: Home,
           label: 'Chekins',
          },
-      Home: { 
-          screen: Home,
-          label: 'Home',
+      Events: { 
+          screen: Events,
+          label: 'Events',
          },
+      
       Profile: { 
           screen: Home,
           label: 'Profile',
@@ -47,16 +49,13 @@ export default TabNavigator (
             iconUrl = (require('../../../assets/profileTab.png'));
           }
 
-          console.log(tintColor, "----------------") ;
+          console.log(tintColor, "---------------") ;
           return (
             (tintColor === '#ffffff') ? 
             <Image source={require('../../../assets/checkinTab.png')} style={{height:20, width:20, resizeMode:'contain'}}/> : 
             <Image source={iconUrl} style={{height:20, width:20, resizeMode:'contain'}}  />
-          );  
-
-          
-        },
-      }),
+          );
+      }}),
       tabBarComponent: TabBarBottom,
       tabBarPosition: 'bottom',
       tabBarOptions: {
