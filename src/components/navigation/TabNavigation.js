@@ -15,7 +15,7 @@ export default TabNavigator (
       AddReview: { 
           screen: Home,
           navigationOptions: ({ navigation }) => ({
-            title: 'Add Review',
+            title: 'Review',
           }),
          },
       Checkin: { 
@@ -70,6 +70,7 @@ export default TabNavigator (
             width:50,
             height:300,
             marginLeft:0,
+            padding:3,
 			      borderTopColor: 'white'
         },
         style: {
