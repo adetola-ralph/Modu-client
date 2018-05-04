@@ -6,7 +6,6 @@ const dimension = {height, width} = Dimensions.get('window');
 class Home extends Component {
 
     render () {
-
         return(
             <View style={styles.container}>
                 <View style={styles.topbar}> 
@@ -34,11 +33,11 @@ class Home extends Component {
 const styles = StyleSheet.create({
     topbar:{ 
         width: (dimension.width/2),
-        height: 70, 
+        height: 60, 
         margin:0,
         backgroundColor: '#ffffff',
-        borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         borderWidth: 1,
         borderColor: '#fff',
         transform: [
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingLeft: 15,
         paddingRight: 15,
-        paddingTop: 20,
+        paddingTop: 13,
         justifyContent: 'space-between',
 
     },

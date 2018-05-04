@@ -18,8 +18,6 @@ class Signup extends Component {
     this.props.navigation.dispatch(backAction);
   }
 
-  
-
   render () {
     return (
       <View style={styles.container}>

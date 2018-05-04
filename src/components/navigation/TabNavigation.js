@@ -3,6 +3,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import { Image } from 'react-native';
 import Events from '../Events';
 import Home from '../Home';
+import Profile from '../Profile';
 
 
 export default TabNavigator (
@@ -28,7 +29,7 @@ export default TabNavigator (
          },
       
       Profile: { 
-          screen: Home,
+          screen: Profile,
           label: 'Profile',
          },
     },
@@ -49,7 +50,6 @@ export default TabNavigator (
             iconUrl = (require('../../../assets/profileTab.png'));
           }
 
-          console.log(tintColor, "---------------") ;
           return (
             (tintColor === '#ffffff') ? 
             <Image source={require('../../../assets/checkinTab.png')} style={{height:20, width:20, resizeMode:'contain'}}/> : 
