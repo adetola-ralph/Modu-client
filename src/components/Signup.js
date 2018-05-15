@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import Login from './Login';
+import { createUser } from '../actions/userActions'
 
 import GradientBackground from './GradientBackground';
  
 class Signup extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        password:"",
+      }
+    }
+  }
+
   static navigationOptions = () => ({
     headerLeft: null,
     headerStyle: {
@@ -12,10 +28,10 @@ class Signup extends Component {
     }
   });
 
-  linkToLogin () {
+  linkToLogin = () => {
     // navigates back to login  
-    const backAction = NavigationActions.back({});
-    this.props.navigation.dispatch(backAction);
+    //const b2ackAction = NavigationActions.back({}); 
+    this.props.signup(this.state.user)   
   }
 
   render () {
@@ -32,7 +48,8 @@ class Signup extends Component {
           <TextInput style={styles.textInput}
            placeholder='First Name'
            placeholderTextColor = "#ffffff"
-           autoCapitalize = "none"></TextInput>
+           autoCapitalize = "none"
+           onChangeText={(firstname) => this.setState({user: { ...this.state.user, firstname }})}></TextInput>
         </View>
 
         <View style={styles.btnView}>
@@ -40,7 +57,8 @@ class Signup extends Component {
           <TextInput style={styles.textInput}
            placeholder='Last Name'
            placeholderTextColor = "#ffffff"
-           autoCapitalize = "none"></TextInput>
+           autoCapitalize = "none"
+           onChangeText={(lastname) => this.setState({user: { ...this.state.user, lastname }})}></TextInput>
         </View>
 
         <View style={styles.btnView}>
@@ -48,7 +66,8 @@ class Signup extends Component {
           <TextInput style={styles.textInput}
            placeholder='Email Address'
            placeholderTextColor = "#ffffff"
-           autoCapitalize = "none"></TextInput>
+           autoCapitalize = "none"
+           onChangeText={(email) => this.setState({user: { ...this.state.user, email }})}></TextInput>
         </View>
 
         <View style={styles.btnView}>
@@ -56,22 +75,26 @@ class Signup extends Component {
           <TextInput style={styles.textInput}
           placeholder='Password'
           placeholderTextColor = "#ffffff"
-          autoCapitalize = "none"></TextInput>
+          autoCapitalize = "none"
+          onChangeText={(password) => this.setState({user: { ...this.state.user, password }})}></TextInput>
 
           <Image style={styles.textViewImg} source={(require('../../assets/switchPassword.png'))}></Image>
         </View>
 
         <TouchableOpacity
-          style = {styles.submitButton}>
+           onPress={this.linkToLogin}
+          style = {styles.submitButton}
+        >         
           <Text style = {styles.btnText}> Sign Up </Text>
         </TouchableOpacity>
 
-        <View style={styles.signupHolder}>
-          <Text style={styles.noAccount}> Already have an account? </Text>
-          <TouchableOpacity onPress={this.linkToLogin.bind(this)}>
-            <Text style={styles.signup}> Log In!</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity>
+          <View style={styles.signupHolder}>
+            <Text style={styles.noAccount}> Already have an account? </Text>
+            
+              <Text style={styles.signup}> Log In!</Text>
+          </View>
+        </TouchableOpacity>
         
         <Text style={styles.terms}> By signing in / signing up you agree to the </Text>
         <Text style={styles.policy}>terms of service and privacy policy</Text>
@@ -168,4 +191,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+const mapStateToProps = (state) => ({
+    currentUser: state.currentUser,
+    allUsers: state.allUsers,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signup: (user) => dispatch(createUser(user)),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

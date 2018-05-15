@@ -8,7 +8,9 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.CREATE_USER:
-      return { ...state, presentUser: action.user };
+      return { ...state, currentUser: action.user };
+    case types.CREATE_USER_SUCESS:
+      return { ...state, currentUser: action.user };
     default:
       return state;
   }

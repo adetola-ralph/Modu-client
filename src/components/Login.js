@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import GradientBackground from './GradientBackground';
  
 class Login extends Component {
   constructor() {
     super();
+    this.state={
+      user: {}
+    }
   }
 
   static navigationOptions = () => ({
@@ -19,10 +23,12 @@ class Login extends Component {
   }
 
   linkToTabs () {
-    this.props.navigation.navigate('DrawerNavigation');
+    this.props.navigation.navigate('DrawerNavigation', {user });
   }
 
   render () {
+    user  = ( this.props.navigation.state.params)? this.props.navigation.state.params.user: undefined;
+
     return (
       <View style={styles.container}>
         <GradientBackground/>
@@ -36,6 +42,7 @@ class Login extends Component {
           <TextInput style={styles.textInput}
            placeholder='Email Address'
            placeholderTextColor = "#ffffff"
+           value={(user)? user.email: ""} 
            autoCapitalize = "none"></TextInput>
         </View>
 
@@ -44,6 +51,8 @@ class Login extends Component {
           <TextInput style={styles.textInput}
           placeholder='Password'
           placeholderTextColor = "#ffffff"
+          secureTextEntry = {true}
+          value={(user)? user.password: ""} 
           autoCapitalize = "none"></TextInput>
 
           <Image style={styles.textViewImg} source={(require('../../assets/switchPassword.png'))}></Image>
@@ -163,4 +172,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+const mapStateToProps = (state) => ({
+  currentUser: state.currentUser,
+  allUsers: state.allUsers,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signup: (user) => dispatch({ type: 'CREATE_USER', user: user }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

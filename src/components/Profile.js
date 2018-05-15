@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Text, View, Image,  ImageBackground, ScrollView } from 'react-native';
 
 class Profile extends Component {
+    constructor(props){
+        super(props)
+    }
 
     render () {
-
+        console.log("------", this.props)
+        const user = this.props.navigation.state.params.user;
         return(
+
             <View style={styles.container}> 
                 <ImageBackground style={styles.header} source= {require ('../../assets/profilebg.png')} resizeMode='stretch'> 
 
                     <View style={styles.nameView}> 
-                        <Text style= { styles.nameText }> Lili Atkinson</Text>
-                        <Text style= { styles.locationText }> Ikeja lagos</Text>
+                        <Text style= { styles.nameText }> {user.firstname + " " + user.lastname}</Text>
+                        <Text style= { styles.locationText }> {user.email}</Text>
                     </View>
                 </ImageBackground>
                 <View style={styles.followDetails}> 
@@ -134,4 +140,18 @@ const styles = {
     },
 };
 
-export default Profile;
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.currentUser,
+        allUsers: state.allUsers
+    }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //signup: (user) => dispatch({ type: 'CREATE_USER', user: user }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
