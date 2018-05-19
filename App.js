@@ -29,7 +29,7 @@ export default class App extends React.Component {
     }, {
       navigationOptions: ({navigation}) => ({
         headerStyle: { backgroundColor: '#ffffff' },
-        headerTintColor: '#FD2B30',
+        headerTintColor: 'rgba(208, 58, 27, 0.9469)',
         headerLeft: <TouchableOpacity 
         onPress={() => {
           (toggle) ?

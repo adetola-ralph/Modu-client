@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Login from './Login';
 import { createUser } from '../actions/userActions'
@@ -13,10 +13,10 @@ class Signup extends Component {
 
     this.state = {
       user: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        password:"",
+        firstname: '',
+        lastname: '',
+        email: '',
+        password:'',
       }
     }
   }
@@ -28,10 +28,43 @@ class Signup extends Component {
     }
   });
 
-  linkToLogin = () => {
-    // navigates back to login  
-    //const b2ackAction = NavigationActions.back({}); 
-    this.props.signup(this.state.user)   
+  linkToLogin = (signup, user, alert) => {
+    let isValid = true;
+    let message = '';
+
+    if (!user.firstname || user.firstname === '') {
+      isValid = false;
+      message = 'First name cannot be blank';
+    }
+
+    if (!user.lastname || user.lastname === '' ) {
+      isValid = false;
+      message = 'Last name cannot be blank';
+    }
+
+    if (!user.email || user.email === '' || user.email.indexOf('@') === -1) {
+      isValid = false;
+      message = 'Email not properly formatted';
+    }
+
+    if (!user.password || user.password === '' || user.password.length < 6) {
+      isValid = false;
+      message = 'Password cannot be less than 6 characters';
+    }
+
+    if (isValid) { 
+      signup(user) 
+    } else {
+      alert.alert(
+        'Unable to Signup',
+        message,
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: true }
+      )
+    }
+    
   }
 
   render () {
@@ -82,19 +115,20 @@ class Signup extends Component {
         </View>
 
         <TouchableOpacity
-           onPress={this.linkToLogin}
+           onPress= {() => { 
+             this.linkToLogin(this.props.signup, this.state.user, Alert);
+            }}
           style = {styles.submitButton}
         >         
           <Text style = {styles.btnText}> Sign Up </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <View style={styles.signupHolder}>
-            <Text style={styles.noAccount}> Already have an account? </Text>
-            
-              <Text style={styles.signup}> Log In!</Text>
-          </View>
-        </TouchableOpacity>
+        
+        <View style={styles.signupHolder}>
+          <Text style={styles.noAccount}> Already have an account? </Text>
+          
+            <Text onPress={() => this.props.navigation.goBack(null)} style={styles.signup}> Log In!</Text>
+        </View>
         
         <Text style={styles.terms}> By signing in / signing up you agree to the </Text>
         <Text style={styles.policy}>terms of service and privacy policy</Text>
@@ -116,7 +150,7 @@ const styles = StyleSheet.create({
     width: 100,
     resizeMode:'contain',
   }, 
-  logInText:{
+  logInText: {
     backgroundColor: 'transparent',
     textAlign: 'center',
     color: '#ffffff',

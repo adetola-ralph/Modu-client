@@ -45,14 +45,14 @@ export default TabNavigator (
           } else if (routeName === 'AddReview') {
             iconUrl = (require('../../../assets/addReview.png'));
           } else if (routeName === 'Checkin') {
-            iconUrl = (require('../../../assets/moduLogo.png'));
+            iconUrl = (require('../../../assets/orangeLogo.png'));
           }  else if (routeName === 'Profile') {
             iconUrl = (require('../../../assets/profileTab.png'));
           }
 
           return (
             (tintColor === '#ffffff') ? 
-            <Image source={require('../../../assets/checkinTab.png')} style={{height:20, width:20, resizeMode:'contain'}}/> : 
+            <Image source={require('../../../assets/moduLogo.png')} style={{height:20, width:20, resizeMode:'contain'}}/> : 
             <Image source={iconUrl} style={{height:20, width:20, resizeMode:'contain'}}  />
           );
       }}),
@@ -60,8 +60,8 @@ export default TabNavigator (
       tabBarPosition: 'bottom',
       tabBarOptions: {
         activeTintColor: '#ffffff',
-        inactiveTintColor: '#FF2B26',
-        activeBackgroundColor:'#FF2B26',
+        inactiveTintColor: 'rgba(208, 58, 27, 0.9469)',
+        activeBackgroundColor:'rgba(208, 58, 27, 0.9469)',
         showLabel: true,
         tabStyle: {
             // borderTopRightRadius: 10,
