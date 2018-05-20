@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { connect } from 'react-redux';
 
 const dimension = {height, width} = Dimensions.get('window');
 
 class Home extends Component {
 
     render () {
-        return(
+        console.log(this.props.currentUser);
+
+        return (
             <View style={styles.container}>
                 <View style={styles.topbar}> 
                     <TouchableOpacity> 
@@ -72,4 +75,18 @@ const styles = StyleSheet.create({
     
   });
 
-export default Home;
+
+  const mapStateToProps = (state) => {
+      return {
+    currentUser: state.users.currentUser,
+    allUsers: state.users.allUsers,
+  }
+};
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+    }
+  }
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+

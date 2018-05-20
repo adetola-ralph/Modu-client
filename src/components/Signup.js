@@ -11,14 +11,6 @@ class Signup extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      user: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        password:'',
-      }
-    }
   }
 
   static navigationOptions = () => ({
@@ -59,7 +51,7 @@ class Signup extends Component {
         'Unable to Signup',
         message,
         [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
+          {text: 'OK', onPress: () => {}},
         ],
         { cancelable: true }
       )
@@ -68,6 +60,12 @@ class Signup extends Component {
   }
 
   render () {
+    let user = {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password:'',
+    }
     return (
       <View style={styles.container}>
         <GradientBackground/>
@@ -82,7 +80,7 @@ class Signup extends Component {
            placeholder='First Name'
            placeholderTextColor = "#ffffff"
            autoCapitalize = "none"
-           onChangeText={(firstname) => this.setState({user: { ...this.state.user, firstname }})}></TextInput>
+           onChangeText={(firstname) => { user.firstname = firstname }}></TextInput>
         </View>
 
         <View style={styles.btnView}>
@@ -91,7 +89,7 @@ class Signup extends Component {
            placeholder='Last Name'
            placeholderTextColor = "#ffffff"
            autoCapitalize = "none"
-           onChangeText={(lastname) => this.setState({user: { ...this.state.user, lastname }})}></TextInput>
+           onChangeText={(lastname) => { user.lastname = lastname }}></TextInput>
         </View>
 
         <View style={styles.btnView}>
@@ -100,23 +98,24 @@ class Signup extends Component {
            placeholder='Email Address'
            placeholderTextColor = "#ffffff"
            autoCapitalize = "none"
-           onChangeText={(email) => this.setState({user: { ...this.state.user, email }})}></TextInput>
+           onChangeText={(email) => { user.email = email }}></TextInput>
         </View>
 
         <View style={styles.btnView}>
           <Image style={styles.textViewImg} source={(require('../../assets/password.png'))}></Image>
           <TextInput style={styles.textInput}
           placeholder='Password'
+          secureTextEntry = {true}
           placeholderTextColor = "#ffffff"
           autoCapitalize = "none"
-          onChangeText={(password) => this.setState({user: { ...this.state.user, password }})}></TextInput>
+          onChangeText={(password) => { user.password = password }}></TextInput>
 
           <Image style={styles.textViewImg} source={(require('../../assets/switchPassword.png'))}></Image>
         </View>
 
         <TouchableOpacity
            onPress= {() => { 
-             this.linkToLogin(this.props.signup, this.state.user, Alert);
+             this.linkToLogin(this.props.signup, user, Alert);
             }}
           style = {styles.submitButton}
         >         

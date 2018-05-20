@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import GradientBackground from './GradientBackground';
+import { loginUser, createUserSuccess } from '../actions/userActions'
  
 class Login extends Component {
   constructor() {
     super();
     this.state={
-      user: {}
+      loginDetails: {
+        email: '',
+        password: ''
+      }
     }
   }
 
@@ -18,17 +22,53 @@ class Login extends Component {
     }
   });
 
- linkToSignup () {
+ linkToSignup = () => {
     this.props.navigation.navigate('Signup');
   }
 
-  linkToTabs () {
-    this.props.navigation.navigate('DrawerNavigation', {user });
+  linkToTabs  = () => {
+    this.props.navigation.navigate('DrawerNavigation');
+  }
+
+  login = (login, details, setCurrentUser) => {
+    let isValid = true;
+    let message = '';
+
+    if (!details.email || details.email === '' || details.email.indexOf('@') === -1) {
+      message = 'Improper email format';
+      isValid = false;
+    }
+
+    if (!details.password || details.password === '' || details.password.length < 6) {
+      message = 'Password cannot be less than 6 characters';
+      isValid = false;
+    }
+
+    if (isValid) {
+      login(details).then((res) => {
+        setCurrentUser(res.body);
+      }).then(() => {
+        this.linkToTabs();
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      alert.alert(
+        'Unable to Login',
+        message,
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed in Login')},
+        ],
+        { cancelable: true }
+      );
+    }
   }
 
   render () {
-    user  = ( this.props.navigation.state.params)? this.props.navigation.state.params.user: undefined;
-
+    const details = {
+      email : '',
+      password : ''
+    }
     return (
       <View style={styles.container}>
         <GradientBackground/>
@@ -41,8 +81,10 @@ class Login extends Component {
           <Image style={styles.textViewImg} source={(require('../../assets/email.png'))}></Image>
           <TextInput style={styles.textInput}
            placeholder='Email Address'
+           onChangeText = {(text)=> { 
+            details.email = text
+          }}
            placeholderTextColor = "#ffffff"
-           value={(user)? user.email: ""} 
            autoCapitalize = "none"></TextInput>
         </View>
 
@@ -51,8 +93,10 @@ class Login extends Component {
           <TextInput style={styles.textInput}
           placeholder='Password'
           placeholderTextColor = "#ffffff"
+          onChangeText = {(text)=> { 
+            details.password = text
+          }}
           secureTextEntry = {true}
-          value={(user)? user.password: ""} 
           autoCapitalize = "none"></TextInput>
 
           <Image style={styles.textViewImg} source={(require('../../assets/switchPassword.png'))}></Image>
@@ -60,13 +104,13 @@ class Login extends Component {
         <Text style={styles.forgotPassword}> Forgot Password? </Text>
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={this.linkToTabs.bind(this)}>
+          onPress={() => { this.login(this.props.login, details, this.props.setCurrentUser)}}>
           <Text style = {styles.btnText}> Log In </Text>
         </TouchableOpacity>
 
         <View style={styles.signupHolder}>
           <Text style={styles.noAccount}> Don't have an account? </Text>
-          <TouchableOpacity onPress={this.linkToSignup.bind(this)}>
+          <TouchableOpacity onPress={this.linkToSignup}>
             <Text style={styles.signup}> Sign Up!</Text>
           </TouchableOpacity>
         </View>
@@ -179,7 +223,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signup: (user) => dispatch({ type: 'CREATE_USER', user: user }),
+    login: (details) => dispatch(loginUser(details)),
+    setCurrentUser: (user) => dispatch(createUserSuccess(user)),
   }
 }
 

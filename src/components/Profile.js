@@ -8,7 +8,6 @@ class Profile extends Component {
     }
 
     render () {
-        console.log("------", this.props)
         const user = this.props.navigation.state.params.user;
         return(
 

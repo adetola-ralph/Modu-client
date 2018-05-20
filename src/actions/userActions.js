@@ -3,17 +3,21 @@ import UserApi from '../api/userApi';
 
 
 export const createUserSuccess = (user) => {
-  debugger;
   return { type: types.CREATE_USER_SUCCESS, user };
 }
 
-export const createUser = user =>
-  ((dispatch) => {
-    debugger;
+export const createUser = (user) => {
+  return (dispatch) => {
     return UserApi.createUser(user).then((authUser) => {
-      debugger;
       dispatch(createUserSuccess(authUser));
     }).catch((err) => {
       console.log(err);
     });
-  });
+  };
+}
+
+export const loginUser = (details) => {
+  return (dispatch) => {
+    return UserApi.login(details)
+  };
+}
