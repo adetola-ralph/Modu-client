@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Login from './Login';
-import { createUser } from '../actions/userActions'
+import { createUser, createUserSuccess } from '../actions/userActions'
+import { ProgressBar } from './ProgressBar';
 
 import GradientBackground from './GradientBackground';
  
@@ -11,6 +12,9 @@ class Signup extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      loading: false,
+    }
   }
 
   static navigationOptions = () => ({
@@ -20,7 +24,11 @@ class Signup extends Component {
     }
   });
 
-  linkToLogin = (signup, user, alert) => {
+  linkToTabs  = () => {
+    this.props.navigation.navigate('DrawerNavigation');
+  }
+
+  linkToLogin = (signup, user, alert, setCurrentUser) => {
     let isValid = true;
     let message = '';
 
@@ -45,7 +53,16 @@ class Signup extends Component {
     }
 
     if (isValid) { 
-      signup(user) 
+      this.setState({ loading : true });
+
+      signup(user).then((res) => {
+        setCurrentUser(res.body);  
+      }).then (() => {
+        this.setState({ loading : false });
+        this.linkToTabs();
+      }).catch((err) => {
+        console.log(err)
+      });
     } else {
       alert.alert(
         'Unable to Signup',
@@ -63,12 +80,17 @@ class Signup extends Component {
     let user = {
       firstname: '',
       lastname: '',
+      username: '',
       email: '',
       password:'',
     }
     return (
       <View style={styles.container}>
         <GradientBackground/>
+
+        { this.state.loading && 
+          <ProgressBar />
+        }
 
         <Image style={styles.logo} source={(require('../../assets/modu_logo_text.png'))}></Image>
 
@@ -90,6 +112,15 @@ class Signup extends Component {
            placeholderTextColor = "#ffffff"
            autoCapitalize = "none"
            onChangeText={(lastname) => { user.lastname = lastname }}></TextInput>
+        </View>
+
+        <View style={styles.btnView}>
+          <Image style={styles.textViewImg} source={(require('../../assets/nameIc.png'))}></Image>
+          <TextInput style={styles.textInput}
+           placeholder='Username'
+           placeholderTextColor = "#ffffff"
+           autoCapitalize = "none"
+           onChangeText={(username) => { user.username = username }}></TextInput>
         </View>
 
         <View style={styles.btnView}>
@@ -115,7 +146,7 @@ class Signup extends Component {
 
         <TouchableOpacity
            onPress= {() => { 
-             this.linkToLogin(this.props.signup, user, Alert);
+             this.linkToLogin(this.props.signup, user, Alert, this.props.setCurrentUser);
             }}
           style = {styles.submitButton}
         >         
@@ -154,7 +185,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffffff',
     fontSize: 25,
-    marginTop:70,
+    marginTop:50,
     marginBottom: 20,
   },
   btnView: {
@@ -216,7 +247,7 @@ const styles = StyleSheet.create({
   terms: {
     color: '#fff',
     fontSize: 9,
-    marginTop: 80,
+    marginTop: 60,
   },
   policy: {
     color: '#fff',
@@ -232,6 +263,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     signup: (user) => dispatch(createUser(user)),
+    setCurrentUser: (user) => dispatch(createUserSuccess(user)),
   }
 }
 

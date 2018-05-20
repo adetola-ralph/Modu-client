@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { loginUser, createUserSuccess } from '../actions/userActions';
 import GradientBackground from './GradientBackground';
-import { loginUser, createUserSuccess } from '../actions/userActions'
+import { ProgressBar } from './ProgressBar';
  
 class Login extends Component {
   constructor() {
     super();
     this.state={
-      loginDetails: {
-        email: '',
-        password: ''
-      }
+      loading: false,
     }
   }
 
@@ -30,12 +28,12 @@ class Login extends Component {
     this.props.navigation.navigate('DrawerNavigation');
   }
 
-  login = (login, details, setCurrentUser) => {
+  login = (login, details, setCurrentUser, alert) => {
     let isValid = true;
     let message = '';
 
     if (!details.email || details.email === '' || details.email.indexOf('@') === -1) {
-      message = 'Improper email format';
+      message = 'Incorrect email';
       isValid = false;
     }
 
@@ -45,19 +43,32 @@ class Login extends Component {
     }
 
     if (isValid) {
+      this.setState({ loading: true });
+
       login(details).then((res) => {
         setCurrentUser(res.body);
       }).then(() => {
+        this.setState({ loading: false });
         this.linkToTabs();
       }).catch((err) => {
-        console.log(err);
+        this.setState({ loading: false });
+        message = 'Incorrect email or password ';
+
+        alert.alert(
+          'Unable to Login',
+          message,
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed in Login')},
+          ],
+          { cancelable: true }
+        );
       });
     } else {
       alert.alert(
         'Unable to Login',
         message,
         [
-          {text: 'OK', onPress: () => console.log('OK Pressed in Login')},
+          {text: 'OK', onPress: () => {}},
         ],
         { cancelable: true }
       );
@@ -71,7 +82,12 @@ class Login extends Component {
     }
     return (
       <View style={styles.container}>
-        <GradientBackground/>
+        <GradientBackground />
+
+        { this.state.loading && 
+          <ProgressBar />
+        }
+        
 
         <Image style={styles.logo} source={(require('../../assets/modu_logo_text.png'))}></Image>
 
@@ -104,7 +120,7 @@ class Login extends Component {
         <Text style={styles.forgotPassword}> Forgot Password? </Text>
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => { this.login(this.props.login, details, this.props.setCurrentUser)}}>
+          onPress={() => { this.login(this.props.login, details, this.props.setCurrentUser, Alert)}}>
           <Text style = {styles.btnText}> Log In </Text>
         </TouchableOpacity>
 

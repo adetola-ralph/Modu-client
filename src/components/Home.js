@@ -24,7 +24,7 @@ class Home extends Component {
                         <Image source={require('../../assets/nightlifeIcon.png')} style={{height:25, width:12, resizeMode:'stretch'}}/>
                     </TouchableOpacity>
                     <TouchableOpacity> 
-                        <Image source={require('../../assets/cinemaIcon.png')} style={{height:25, width:15, resizeMode:'stretch'}}/>
+                        <Image source={require('../../assets/cinemaIcon.png')} style={{height:23, width:15, resizeMode:'stretch'}}/>
                     </TouchableOpacity>
                 </View>
                 
@@ -36,7 +36,7 @@ class Home extends Component {
 const styles = StyleSheet.create({
     topbar:{ 
         width: (dimension.width/2),
-        height: 60, 
+        height: 50, 
         margin:0,
         backgroundColor: '#ffffff',
         borderBottomLeftRadius: 20,
@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
 
   const mapStateToProps = (state) => {
       return {
-    currentUser: state.users.currentUser,
-    allUsers: state.users.allUsers,
-  }
+        currentUser: state.users.currentUser,
+        allUsers: state.users.allUsers,
+      }
 };
   
   const mapDispatchToProps = (dispatch) => {

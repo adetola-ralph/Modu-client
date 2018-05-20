@@ -8,8 +8,13 @@ export const createUserSuccess = (user) => {
 
 export const createUser = (user) => {
   return (dispatch) => {
-    return UserApi.createUser(user).then((authUser) => {
-      dispatch(createUserSuccess(authUser));
+    return UserApi.createUser(user).then((res) => {
+      const loginDetails = {
+        email: user.email,
+        password: user.password
+      } 
+
+      return dispatch(loginUser(loginDetails));
     }).catch((err) => {
       console.log(err);
     });
