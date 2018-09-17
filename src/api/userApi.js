@@ -1,13 +1,21 @@
 import request from 'superagent';
 
-const url = 'url';
+const url = 'https://modu-server-staging.herokuapp.com/api/';
+const createUserEndpoint = 'People';
+const loginEndpoint = 'People/login';
 
 class UserApi {
-  static login(user) {
-    request.post(`${url}endpoint`)
-      .set(user)
-      .send();
+  createUser = (user) => {
+    return request.post(`${url}${createUserEndpoint}`)
+      .send(user)
+      .set('Content-Type', 'application/json')
+  }
+
+  login = (details) => {
+    return request.post(`${url}${loginEndpoint}`)
+      .send(details)
+      .set('Content-Type', 'application/json')
   }
 }
 
-export default UserApi;
+export default new UserApi();
